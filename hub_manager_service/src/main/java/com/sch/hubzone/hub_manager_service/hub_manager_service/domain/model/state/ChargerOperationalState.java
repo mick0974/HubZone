@@ -8,15 +8,17 @@ public enum ChargerOperationalState {
     IN_ACTIVATION, // la richiesta di attivazione del connettore è stata accettata dal simulatore
     IN_DEACTIVATION, // la richiesta di disattivazione del connettore è stata accettata dal simulatore
 
-    // Stati finali/concreti
-    ON,
-    OFF,
-    ACTIVE,
-    INACTIVE,
+    // Stati finali/concreti. Attualmente sistema e simulatore gestiscono solo i casi ACTIVE e INACTIVE (i casi ON e OFF possono essere
+    // paragonati al caso INACTIVE)
+    ON, // il connettore è acceso (e non disponibile per la ricarica)
+    OFF, // il connettore è spento (e non disponibile per la ricarica)
+    ACTIVE, // il connettore è attiva (acceso e disponibile per la ricarica)
+    INACTIVE, // il connettore è inattivo (acceso ma non disponibile per la ricarica)
 
-    // Stati di errore
-    UNREACHABLE,
-    FAULTED;
+    // Stati di errore. In entrambi i casi il sistema non sa dire nulla sullo stato reale del connettore, quindi sono considerati
+    // al pari dello stato INACTIVE
+    UNREACHABLE, // il sistema non è riuscito a comunicare con il connettore
+    FAULTED; // il connettore ha restituito uno stato non conforme a quello previsto
 
     /**
      * Indica se un connettore con questo stato contribuisce correntemente alla potenza massima disponibile dell'hub.
