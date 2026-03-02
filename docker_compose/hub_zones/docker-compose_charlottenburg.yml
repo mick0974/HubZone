@@ -1,0 +1,116 @@
+name: hub_charlottenburg
+
+services:
+  charlottenburg_db:
+    image: postgres:14-alpine3.17
+    container_name: hub-db-charlottenburg
+    volumes:
+      - db_charlottenburg:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  charlottenburg:
+    image: hub-manager-service:latest
+    container_name: charlottenburg
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      charlottenburg_db:
+        condition: service_healthy
+    environment:
+      HUB_TO_HANDLE: hub_charlottenburg
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://charger-gateway-charlottenburg:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://hub-db-central-station:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hub-charlottenburg.rule=PathPrefix(`/api/hub_charlottenburg`)"
+      - "traefik.http.routers.hub-charlottenburg.entrypoints=web"
+      - "traefik.http.services.hub-charlottenburg.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.hub-charlottenburg-replace.replacepathregex.regex=^/api/hub_charlottenburg(.*)"
+      - "traefik.http.middlewares.hub-charlottenburg-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.hub-charlottenburg.middlewares=hub-charlottenburg-replace"
+    networks:
+      - hub_network
+
+  charger_gateway_charlottenburg:
+    image: charger-gateway:latest
+    container_name: charger-gateway-charlottenburg
+    expose:
+      - "9000"
+    volumes:
+      - ./additional_config/charlottenburg.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+  charlottenburg_col1:
+    image: charger-manager-service:latest
+    container_name: charlottenburg-col1
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_charlottenburg
+      CHARGER_TO_HANDLE: hub_charlottenburg_col1
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  charlottenburg_col2:
+    image: charger-manager-service:latest
+    container_name: charlottenburg-col2
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_charlottenburg
+      CHARGER_TO_HANDLE: hub_charlottenburg_col2
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+volumes:
+  db_charlottenburg:
+
+networks:
+  hub_network:
+    driver: bridge

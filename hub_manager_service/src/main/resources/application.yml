@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: hub_manager_service
+
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:http://localhost:9092}
+
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/hub_db}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8081
+
+hub:
+  init:
+    hubTarget: ${HUB_TO_HANDLE:hub_2}
+    onStartup: ${INITIALIZE_ON_STARTUP:false}
+  pollState:
+    initialDelay: ${INITIAL_DELAY_POLL}
+    fixedDelay: ${FIXED_DELAY_POLL}
+  gateway:
+    url: ${CHARGER_GATEWAY_URL}
+
+kafka:
+  topic: ${KAFKA_TOPIC:hub_state}
+  key: ${KAFKA_KEY:hub_2}
+
+simulation:
+  api:
+    baseUrl: ${SIMULATION_API_BASE_URL:http://localhost:9000/api}
+
+logging:
+  level:
+    root: INFO
+
+springwolf:
+  docket:
+    base-package: com.sch.hub_manager_service
+    info:
+      title: Cambiamenti Stato Hub Async API
+      version: 1.0.0
+      description: Messaggi di cambiamento inviati tramite Kafka
+    servers:
+      hub:
+        protocol: kafka
+        host: localhost:9092
+        description: Kafka broker locale

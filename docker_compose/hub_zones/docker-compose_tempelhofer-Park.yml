@@ -1,0 +1,154 @@
+name: hub_tempelhofer_park
+
+services:
+  tempelhofer_Park_db:
+    image: postgres:14-alpine3.17
+    container_name: hub-db-tempelhofer-Park
+    volumes:
+      - db_tempelhofer_Park:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  tempelhofer_Park:
+    image: hub-manager-service:latest
+    container_name: tempelhofer-Park
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      tempelhofer_Park_db:
+        condition: service_healthy
+    environment:
+      HUB_TO_HANDLE: hub_tempelhofer_Park
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://charger-gateway-tempelhofer-Park:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://hub-db-tempelhofer-Park:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hub-tempelhofer-Park.rule=PathPrefix(`/api/hub_tempelhofer_Park`)"
+      - "traefik.http.routers.hub-tempelhofer-Park.entrypoints=web"
+      - "traefik.http.services.hub-tempelhofer-Park.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.hub-tempelhofer-Park-replace.replacepathregex.regex=^/api/hub_tempelhofer_Park(.*)"
+      - "traefik.http.middlewares.hub-tempelhofer-Park-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.hub-tempelhofer-Park.middlewares=hub-tempelhofer-Park-replace"
+    networks:
+      - hub_network
+
+  charger_gateway_tempelhofer_Park:
+    image: charger-gateway:latest
+    container_name: charger-gateway-tempelhofer-Park
+    expose:
+      - "9000"
+    volumes:
+      - ./additional_config/tempelhofer_Park.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+  tempelhofer_Park_col1:
+    image: charger-manager-service:latest
+    container_name: tempelhofer-Park-col1
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_tempelhofer_Park
+      CHARGER_TO_HANDLE: hub_tempelhofer_Park_col1
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  tempelhofer_Park_col2:
+    image: charger-manager-service:latest
+    container_name: tempelhofer-Park-col2
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_tempelhofer_Park
+      CHARGER_TO_HANDLE: hub_tempelhofer_Park_col2
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  tempelhofer_Park_col3:
+    image: charger-manager-service:latest
+    container_name: tempelhofer-Park-col3
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_tempelhofer_Park
+      CHARGER_TO_HANDLE: hub_tempelhofer_Park_col3
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  tempelhofer_Park_col4:
+    image: charger-manager-service:latest
+    container_name: tempelhofer-Park-col4
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_tempelhofer_Park
+      CHARGER_TO_HANDLE: hub_tempelhofer_Park_col4
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+volumes:
+  db_tempelhofer_Park:
+
+networks:
+  hub_network:
+    driver: bridge

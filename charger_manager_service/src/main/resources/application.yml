@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: charger_manager_service
+
+init:
+  onStartup: ${INITIALIZE_ON_STARTUP}
+  hub: ${HUB_TO_HANDLE}
+  charger: ${CHARGER_TO_HANDLE}
+
+simulation:
+  api:
+    baseUrl: ${SIMULATION_API_BASE_URL}
+  ws:
+    url: ${SIMULATION_WEBSOCKET_URL}
+

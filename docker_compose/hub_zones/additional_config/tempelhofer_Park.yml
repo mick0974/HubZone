@@ -1,0 +1,10 @@
+init:
+  instances:
+    - chargerId: hub_tempelhofer_Park_col1
+      url: http://tempelhofer-Park-col1:8080
+    - chargerId: hub_tempelhofer_Park_col2
+      url: http://tempelhofer-Park-col2:8080
+    - chargerId: hub_tempelhofer_Park_col3
+      url: http://tempelhofer-Park-col3:8080
+    - chargerId: hub_tempelhofer_Park_col4
+      url: http://tempelhofer*Park-col4:8080

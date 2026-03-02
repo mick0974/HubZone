@@ -1,0 +1,135 @@
+name: hub_modern_gallery
+
+services:
+  modern_gallery_db:
+    image: postgres:14-alpine3.17
+    container_name: hub-db-modern-gallery
+    volumes:
+      - db_modern_gallery:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  modern_gallery:
+    image: hub-manager-service:latest
+    container_name: modern-gallery
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      modern_gallery_db:
+        condition: service_healthy
+    environment:
+      HUB_TO_HANDLE: hub_modern_gallery
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://charger-gateway-modern-gallery:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://hub-db-modern-gallery:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hub-modern-gallery.rule=PathPrefix(`/api/hub_modern_gallery`)"
+      - "traefik.http.routers.hub-modern-gallery.entrypoints=web"
+      - "traefik.http.services.hub-modern-gallery.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.hub-modern-gallery-replace.replacepathregex.regex=^/api/hub_modern_gallery(.*)"
+      - "traefik.http.middlewares.hub-modern-gallery-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.hub-modern-gallery.middlewares=hub-modern-gallery-replace"
+    networks:
+      - hub_network
+
+  charger_gateway_modern_gallery:
+    image: charger-gateway:latest
+    container_name: charger-gateway-modern-gallery
+    expose:
+      - "9000"
+    volumes:
+      - ./additional_config/modern_gallery.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+  modern_gallery_col1:
+    image: charger-manager-service:latest
+    container_name: modern-gallery-col1
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_modern_gallery
+      CHARGER_TO_HANDLE: hub_modern_gallery_col1
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  modern_gallery_col2:
+    image: charger-manager-service:latest
+    container_name: modern-gallery-col2
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_modern_gallery
+      CHARGER_TO_HANDLE: hub_modern_gallery_col2
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  modern_gallery_col3:
+    image: charger-manager-service:latest
+    container_name: modern-gallery-col3
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_modern_gallery
+      CHARGER_TO_HANDLE: hub_modern_gallery_col3
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+volumes:
+  db_modern_gallery:
+
+networks:
+  hub_network:
+    driver: bridge

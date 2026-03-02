@@ -1,0 +1,80 @@
+<configuration>
+
+    <!-- Appender hub -->
+    <appender name="HUB_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[HUB] %d{HH:mm:ss.SSS} %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Appender simulazione -->
+    <appender name="SIM_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[SIM] %d{HH:mm:ss.SSS} %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Appender framework  -->
+    <appender name="FW_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[FW] %d{HH:mm:ss.SSS} %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Appender log debug  -->
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/debug.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{60} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- Log debug HubStateManager su file -->
+    <logger name="com.sch.hubzone.hub_manager_service.hub_manager_service.hub.service.HubStateManager"
+            level="DEBUG"
+            additivity="false">
+        <appender-ref ref="HUB_CONSOLE"/>
+        <appender-ref ref="DEBUG_FILE"/>
+    </logger>
+
+    <!-- Log debug SimulationWebSocketClientHandler su file -->
+    <logger name="com.sch.hub_manager_service.integration.input.simulation.websocket.SimulationWebSocketClientHandler"
+            level="DEBUG"
+            additivity="false">
+        <appender-ref ref="SIM_CONSOLE"/>
+        <appender-ref ref="DEBUG_FILE"/>
+    </logger>
+
+    <!-- Logger HUB -->
+    <logger name="com.sch.hub_manager_service.hub"
+            level="INFO"
+            additivity="false">
+        <appender-ref ref="HUB_CONSOLE"/>
+    </logger>
+
+    <!-- Logger SIMULATION -->
+    <logger name="com.sch.hub_manager_service.integration.input.simulation"
+            level="INFO"
+            additivity="false">
+        <appender-ref ref="SIM_CONSOLE"/>
+    </logger>
+
+    <!-- ROOT -->
+    <root level="INFO">
+        <appender-ref ref="FW_CONSOLE"/>
+    </root>
+
+</configuration>

@@ -1,0 +1,152 @@
+name: hub_management
+
+services:
+  traefik:
+    image: traefik:v3.6
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--log.level=DEBUG"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  ######################
+  # Istanza per hub_1 #
+  ######################
+
+  hub_manager_db_1:
+    image: postgres:14-alpine3.17
+    container_name: hub_db_1
+    volumes:
+      - hub_db_data_1:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  hub_manager_service_1:
+    image: hub-manager-service:latest
+    container_name: hub_manager_service_1
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      hub_manager_db_1:
+        condition: service_healthy
+    environment:
+      HUB_TO_HANDLE: hub_1            # id dell'hub da gestire nell'istanza, deve corrispondere a uno degli id generati dal simulatore
+      INITIALIZE_ON_STARTUP: true     # se vero, prova a recuperare i dati dell'hub dal simulatore e collegarsi alla sua websocket al momento dell'avvio
+
+      KAFKA_SERVER: broker:29092      # broker kafka a cui mandare i messaggi di cambiamento di stato
+      KAFKA_TOPIC: hub_state
+      KAFKA_KEY: hub_1
+
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation      # url websocket simulatore
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api               # url api simulatore
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://hub_manager_db_1:5432/hub_db
+    restart: unless-stopped
+    labels:
+      # sostituisce /api/hub_1 con /api/hub in tutte le richieste ricevute
+      - "traefik.enable=true"
+      - "traefik.http.routers.hub-1.rule=PathPrefix(`/api/hub_1`)"
+      - "traefik.http.routers.hub-1.entrypoints=web"
+      - "traefik.http.services.hub-1.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.hub-1-replace.replacepathregex.regex=^/api/hub_1(.*)"
+      - "traefik.http.middlewares.hub-1-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.hub-1.middlewares=hub-1-replace"
+    networks:
+      - hub_network
+
+  ######################
+  # Istanza per hub_2 #
+  ######################
+
+  hub_manager_db_2:
+    image: postgres:14-alpine3.17
+    container_name: hub_db_2
+    volumes:
+      - hub_db_data_2:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  hub_manager_service_2:
+    image: hub-manager-service:latest
+    container_name: hub_manager_service_2
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      hub_manager_db_2:
+        condition: service_healthy
+    environment:
+      HUB_TO_HANDLE: hub_2
+      INITIALIZE_ON_STARTUP: true
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+      KAFKA_KEY: hub_2
+
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://hub_manager_db_2:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hub-2.rule=PathPrefix(`/api/hub_2`)"
+      - "traefik.http.routers.hub-2.entrypoints=web"
+      - "traefik.http.services.hub-2.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.hub-2-replace.replacepathregex.regex=^/api/hub_2(.*)"
+      - "traefik.http.middlewares.hub-2-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.hub-2.middlewares=hub-2-replace"
+    networks:
+      - hub_network
+
+volumes:
+  hub_db_data_1:
+  hub_db_data_2:
+
+networks:
+  hub_network:
+    driver: bridge

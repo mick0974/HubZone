@@ -1,0 +1,6 @@
+init:
+  instances:
+    - chargerId: hub_potsdamer_platz_col1
+      url: http://potsdamer-platz-col1:8080
+    - chargerId: hub_potsdamer_platz_col2
+      url: http://potsdamer-platz-col2:8080

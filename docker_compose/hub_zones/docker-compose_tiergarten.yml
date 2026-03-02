@@ -1,0 +1,116 @@
+name: hub_tiergarten
+
+services:
+  tiergarten_db:
+    image: postgres:14-alpine3.17
+    container_name: hub-db-tiergarten
+    volumes:
+      - db_tiergarten:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  tiergarten:
+    image: hub-manager-service:latest
+    container_name: tiergarten
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      tiergarten_db:
+        condition: service_healthy
+    environment:
+      HUB_TO_HANDLE: hub_tiergarten
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://charger-gateway-tiergarten:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://hub-db-tiergarten:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hub-tiergarten.rule=PathPrefix(`/api/hub_tiergarten`)"
+      - "traefik.http.routers.hub-tiergarten.entrypoints=web"
+      - "traefik.http.services.hub-tiergarten.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.hub-tiergarten-replace.replacepathregex.regex=^/api/hub_tiergarten(.*)"
+      - "traefik.http.middlewares.hub-tiergarten-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.hub-tiergarten.middlewares=hub-tiergarten-replace"
+    networks:
+      - hub_network
+
+  charger_gateway_tiergarten:
+    image: charger-gateway:latest
+    container_name: charger-gateway-tiergarten
+    expose:
+      - "9000"
+    volumes:
+      - ./additional_config/tiergarten.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+  tiergarten_col1:
+    image: charger-manager-service:latest
+    container_name: tiergarten-col1
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_tiergarten
+      CHARGER_TO_HANDLE: hub_tiergarten_col1
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  tiergarten_col2:
+    image: charger-manager-service:latest
+    container_name: tiergarten-col2
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: hub_tiergarten
+      CHARGER_TO_HANDLE: hub_tiergarten_col2
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+volumes:
+  db_tiergarten:
+
+networks:
+  hub_network:
+    driver: bridge

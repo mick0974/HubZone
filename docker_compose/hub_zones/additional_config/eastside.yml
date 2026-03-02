@@ -1,0 +1,6 @@
+init:
+  instances:
+    - chargerId: hub_eastside_col1
+      url: http://eastside-col1:8080
+    - chargerId: hub_eastside_col2
+      url: http://eastside-col2:8080

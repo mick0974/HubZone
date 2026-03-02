@@ -1,0 +1,46 @@
+{
+  "hubId": "hub_modern_gallery",
+  "changeType": "CHARGER_METRICS_CHANGED",
+  "payload": {
+    "aggregatedHubMetrics": {
+      "activeChargers": 3,
+      "occupiedChargers": 0,
+      "currentMaxPower": 183.0,
+      "currentPowerInUse": 0.0,
+      "currentPowerRemaining": 183.0,
+      "currentPowerInUsePercentage": 0.0
+    },
+    "newChargerStates": [
+      {
+        "chargerId": "hub_modern_gallery_col1",
+        "currentPower": 0.0,
+        "occupied": false,
+        "operationalState": "ACTIVE"
+      },
+      {
+        "chargerId": "hub_modern_gallery_col2",
+        "currentPower": 0.0,
+        "occupied": false,
+        "operationalState": "ACTIVE"
+      },
+      {
+        "chargerId": "hub_modern_gallery_col3",
+        "currentPower": 0.0,
+        "occupied": false,
+        "operationalState": "ACTIVE"
+      }
+    ],
+    "simulationTimestamp": 0.0,
+    "formattedTimestamp": "00:00:00"
+  },
+  "hubReservations": [
+    {
+      "chargerType": "TYPE_2",
+      "endTime": "11:30:00",
+      "id": 2,
+      "reservationDate": "2026-05-05",
+      "startTime": "10:00:00",
+      "vehicleId": "EV-2"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "hubId": "hub_central_station",
+  "changeType": "CHARGER_OPERATIONAL_STATE_CHANGED",
+  "payload": {
+    "chargerId": "hub_central_station_col1",
+    "chargerOperationalState": "IN_ACTIVATION",
+    "nextActiveChargers": 2,
+    "nextAvailableMaxPower": 161.0
+  },
+  "hubReservations": []
+}
