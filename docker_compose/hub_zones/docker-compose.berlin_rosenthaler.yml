@@ -1,0 +1,820 @@
+name: Berlin_Rosenthaler
+
+services:
+  berlin_rosenthaler_db:
+    image: postgres:14-alpine3.17
+    container_name: berlin-rosenthaler-db
+    volumes:
+      - db_berlin_rosenthaler:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler:
+    image: hub-manager-service:latest
+    container_name: berlin-rosenthaler-hub
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      berlin_rosenthaler_db:
+        condition: service_healthy
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://berlin-rosenthaler-charger-gateway:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://berlin-rosenthaler-db:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.Berlin_Rosenthaler.rule=PathPrefix(`/api/Berlin_Rosenthaler`)"
+      - "traefik.http.routers.Berlin_Rosenthaler.entrypoints=web"
+      - "traefik.http.services.Berlin_Rosenthaler.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.Berlin_Rosenthaler-replace.replacepathregex.regex=^/api/Berlin_Rosenthaler(.*)"
+      - "traefik.http.middlewares.Berlin_Rosenthaler-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.Berlin_Rosenthaler.middlewares=Berlin_Rosenthaler-replace"
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_charger_gateway:
+    image: charger-gateway:latest
+    container_name: berlin-rosenthaler-charger-gateway
+    expose:
+      - "9000"
+    volumes:
+      - ./gateway_config/berlin_rosenthaler.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col1:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col1
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col1
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col2:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col2
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col2
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col3:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col3
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col3
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col4:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col4
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col4
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col5:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col5
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col5
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col6:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col6
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col6
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col7:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col7
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col7
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col8:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col8
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col8
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col9:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col9
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col9
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col10:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col10
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col10
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col11:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col11
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col11
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col12:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col12
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col12
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col13:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col13
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col13
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col14:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col14
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col14
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col15:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col15
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col15
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col16:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col16
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col16
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col17:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col17
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col17
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col18:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col18
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col18
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col19:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col19
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col19
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col20:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col20
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col20
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col21:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col21
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col21
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col22:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col22
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col22
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col23:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col23
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col23
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col24:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col24
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col24
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col25:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col25
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col25
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col26:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col26
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col26
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col27:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col27
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col27
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col28:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col28
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col28
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col29:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col29
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col29
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col30:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col30
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col30
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col31:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col31
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col31
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col32:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col32
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col32
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col33:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col33
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col33
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col34:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col34
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col34
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col35:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col35
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col35
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col36:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col36
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col36
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_rosenthaler_col37:
+    image: charger-manager-service:latest
+    container_name: berlin-rosenthaler-col37
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Rosenthaler
+      CHARGER_TO_HANDLE: Berlin_Rosenthaler_col37
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+volumes:
+  db_berlin_rosenthaler:
+
+networks:
+  hub_network:
+    driver: bridge

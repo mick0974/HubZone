@@ -1,0 +1,860 @@
+name: Berlin_Hospital
+
+services:
+  berlin_hospital_db:
+    image: postgres:14-alpine3.17
+    container_name: berlin-hospital-db
+    volumes:
+      - db_berlin_hospital:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital:
+    image: hub-manager-service:latest
+    container_name: berlin-hospital-hub
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      berlin_hospital_db:
+        condition: service_healthy
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      HUB_TO_HANDLE: Berlin_Hospital
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://berlin-hospital-charger-gateway:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://berlin-hospital-db:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.Berlin_Hospital.rule=PathPrefix(`/api/Berlin_Hospital`)"
+      - "traefik.http.routers.Berlin_Hospital.entrypoints=web"
+      - "traefik.http.services.Berlin_Hospital.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.Berlin_Hospital-replace.replacepathregex.regex=^/api/Berlin_Hospital(.*)"
+      - "traefik.http.middlewares.Berlin_Hospital-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.Berlin_Hospital.middlewares=Berlin_Hospital-replace"
+    networks:
+      - hub_network
+
+  berlin_hospital_charger_gateway:
+    image: charger-gateway:latest
+    container_name: berlin-hospital-charger-gateway
+    expose:
+      - "9000"
+    volumes:
+      - ./gateway_config/berlin_hospital.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+  berlin_hospital_col1:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col1
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col1
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col2:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col2
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col2
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col3:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col3
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col3
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col4:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col4
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col4
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col5:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col5
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col5
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col6:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col6
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col6
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col7:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col7
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col7
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col8:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col8
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col8
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col9:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col9
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col9
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col10:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col10
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col10
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col11:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col11
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col11
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col12:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col12
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col12
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col13:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col13
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col13
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col14:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col14
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col14
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col15:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col15
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col15
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col16:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col16
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col16
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col17:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col17
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col17
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col18:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col18
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col18
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col19:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col19
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col19
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col20:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col20
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col20
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col21:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col21
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col21
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col22:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col22
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col22
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col23:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col23
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col23
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col24:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col24
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col24
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col25:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col25
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col25
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col26:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col26
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col26
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col27:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col27
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col27
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col28:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col28
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col28
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col29:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col29
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col29
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col30:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col30
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col30
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col31:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col31
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col31
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col32:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col32
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col32
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col33:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col33
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col33
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col34:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col34
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col34
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col35:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col35
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col35
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col36:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col36
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col36
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col37:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col37
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col37
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col38:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col38
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col38
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_hospital_col39:
+    image: charger-manager-service:latest
+    container_name: berlin-hospital-col39
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Hospital
+      CHARGER_TO_HANDLE: Berlin_Hospital_col39
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+volumes:
+  db_berlin_hospital:
+
+networks:
+  hub_network:
+    driver: bridge

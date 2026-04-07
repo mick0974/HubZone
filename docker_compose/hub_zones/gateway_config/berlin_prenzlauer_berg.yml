@@ -1,0 +1,22 @@
+init:
+  instances:
+    - chargerId: Berlin_Prenzlauer_Berg_col1
+      url: http://berlin-prenzlauer-berg-col1:8080
+    - chargerId: Berlin_Prenzlauer_Berg_col2
+      url: http://berlin-prenzlauer-berg-col2:8080
+    - chargerId: Berlin_Prenzlauer_Berg_col3
+      url: http://berlin-prenzlauer-berg-col3:8080
+    - chargerId: Berlin_Prenzlauer_Berg_col4
+      url: http://berlin-prenzlauer-berg-col4:8080
+    - chargerId: Berlin_Prenzlauer_Berg_col5
+      url: http://berlin-prenzlauer-berg-col5:8080
+    - chargerId: Berlin_Prenzlauer_Berg_col6
+      url: http://berlin-prenzlauer-berg-col6:8080
+    - chargerId: Berlin_Prenzlauer_Berg_col7
+      url: http://berlin-prenzlauer-berg-col7:8080
+    - chargerId: Berlin_Prenzlauer_Berg_col8
+      url: http://berlin-prenzlauer-berg-col8:8080
+    - chargerId: Berlin_Prenzlauer_Berg_col9
+      url: http://berlin-prenzlauer-berg-col9:8080
+    - chargerId: Berlin_Prenzlauer_Berg_col10
+      url: http://berlin-prenzlauer-berg-col10:8080

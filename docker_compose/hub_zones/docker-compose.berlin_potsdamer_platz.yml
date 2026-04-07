@@ -1,0 +1,820 @@
+name: Berlin_Potsdamer_Platz
+
+services:
+  berlin_potsdamer_platz_db:
+    image: postgres:14-alpine3.17
+    container_name: berlin-potsdamer-platz-db
+    volumes:
+      - db_berlin_potsdamer_platz:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz:
+    image: hub-manager-service:latest
+    container_name: berlin-potsdamer-platz-hub
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      berlin_potsdamer_platz_db:
+        condition: service_healthy
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://berlin-potsdamer-platz-charger-gateway:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://berlin-potsdamer-platz-db:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.Berlin_Potsdamer_Platz.rule=PathPrefix(`/api/Berlin_Potsdamer_Platz`)"
+      - "traefik.http.routers.Berlin_Potsdamer_Platz.entrypoints=web"
+      - "traefik.http.services.Berlin_Potsdamer_Platz.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.Berlin_Potsdamer_Platz-replace.replacepathregex.regex=^/api/Berlin_Potsdamer_Platz(.*)"
+      - "traefik.http.middlewares.Berlin_Potsdamer_Platz-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.Berlin_Potsdamer_Platz.middlewares=Berlin_Potsdamer_Platz-replace"
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_charger_gateway:
+    image: charger-gateway:latest
+    container_name: berlin-potsdamer-platz-charger-gateway
+    expose:
+      - "9000"
+    volumes:
+      - ./gateway_config/berlin_potsdamer_platz.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col1:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col1
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col1
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col2:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col2
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col2
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col3:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col3
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col3
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col4:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col4
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col4
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col5:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col5
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col5
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col6:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col6
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col6
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col7:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col7
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col7
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col8:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col8
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col8
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col9:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col9
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col9
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col10:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col10
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col10
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col11:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col11
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col11
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col12:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col12
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col12
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col13:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col13
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col13
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col14:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col14
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col14
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col15:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col15
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col15
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col16:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col16
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col16
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col17:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col17
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col17
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col18:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col18
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col18
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col19:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col19
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col19
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col20:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col20
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col20
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col21:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col21
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col21
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col22:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col22
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col22
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col23:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col23
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col23
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col24:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col24
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col24
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col25:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col25
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col25
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col26:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col26
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col26
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col27:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col27
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col27
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col28:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col28
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col28
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col29:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col29
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col29
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col30:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col30
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col30
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col31:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col31
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col31
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col32:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col32
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col32
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col33:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col33
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col33
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col34:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col34
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col34
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col35:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col35
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col35
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col36:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col36
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col36
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_potsdamer_platz_col37:
+    image: charger-manager-service:latest
+    container_name: berlin-potsdamer-platz-col37
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Potsdamer_Platz
+      CHARGER_TO_HANDLE: Berlin_Potsdamer_Platz_col37
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+volumes:
+  db_berlin_potsdamer_platz:
+
+networks:
+  hub_network:
+    driver: bridge

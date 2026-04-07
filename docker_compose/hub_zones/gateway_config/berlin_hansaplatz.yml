@@ -1,0 +1,44 @@
+init:
+  instances:
+    - chargerId: Berlin_Hansaplatz_col1
+      url: http://berlin-hansaplatz-col1:8080
+    - chargerId: Berlin_Hansaplatz_col2
+      url: http://berlin-hansaplatz-col2:8080
+    - chargerId: Berlin_Hansaplatz_col3
+      url: http://berlin-hansaplatz-col3:8080
+    - chargerId: Berlin_Hansaplatz_col4
+      url: http://berlin-hansaplatz-col4:8080
+    - chargerId: Berlin_Hansaplatz_col5
+      url: http://berlin-hansaplatz-col5:8080
+    - chargerId: Berlin_Hansaplatz_col6
+      url: http://berlin-hansaplatz-col6:8080
+    - chargerId: Berlin_Hansaplatz_col7
+      url: http://berlin-hansaplatz-col7:8080
+    - chargerId: Berlin_Hansaplatz_col8
+      url: http://berlin-hansaplatz-col8:8080
+    - chargerId: Berlin_Hansaplatz_col9
+      url: http://berlin-hansaplatz-col9:8080
+    - chargerId: Berlin_Hansaplatz_col10
+      url: http://berlin-hansaplatz-col10:8080
+    - chargerId: Berlin_Hansaplatz_col11
+      url: http://berlin-hansaplatz-col11:8080
+    - chargerId: Berlin_Hansaplatz_col12
+      url: http://berlin-hansaplatz-col12:8080
+    - chargerId: Berlin_Hansaplatz_col13
+      url: http://berlin-hansaplatz-col13:8080
+    - chargerId: Berlin_Hansaplatz_col14
+      url: http://berlin-hansaplatz-col14:8080
+    - chargerId: Berlin_Hansaplatz_col15
+      url: http://berlin-hansaplatz-col15:8080
+    - chargerId: Berlin_Hansaplatz_col16
+      url: http://berlin-hansaplatz-col16:8080
+    - chargerId: Berlin_Hansaplatz_col17
+      url: http://berlin-hansaplatz-col17:8080
+    - chargerId: Berlin_Hansaplatz_col18
+      url: http://berlin-hansaplatz-col18:8080
+    - chargerId: Berlin_Hansaplatz_col19
+      url: http://berlin-hansaplatz-col19:8080
+    - chargerId: Berlin_Hansaplatz_col20
+      url: http://berlin-hansaplatz-col20:8080
+    - chargerId: Berlin_Hansaplatz_col21
+      url: http://berlin-hansaplatz-col21:8080

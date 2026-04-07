@@ -1,8 +1,0 @@
-init:
-  instances:
-    - chargerId: hub_modern_gallery_col1
-      url: http://modern-gallery-col1:8080
-    - chargerId: hub_modern_gallery_col2
-      url: http://modern-gallery-col2:8080
-    - chargerId: hub_modern_gallery_col3
-      url: http://modern-gallery-col3:8080

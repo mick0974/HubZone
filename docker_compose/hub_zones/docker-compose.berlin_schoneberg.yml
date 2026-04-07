@@ -1,0 +1,420 @@
+name: Berlin_Schöneberg
+
+services:
+  berlin_schoneberg_db:
+    image: postgres:14-alpine3.17
+    container_name: berlin-schoneberg-db
+    volumes:
+      - db_berlin_schoneberg:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg:
+    image: hub-manager-service:latest
+    container_name: berlin-schoneberg-hub
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      berlin_schoneberg_db:
+        condition: service_healthy
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://berlin-schoneberg-charger-gateway:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://berlin-schoneberg-db:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.Berlin_Schöneberg.rule=PathPrefix(`/api/Berlin_Schöneberg`)"
+      - "traefik.http.routers.Berlin_Schöneberg.entrypoints=web"
+      - "traefik.http.services.Berlin_Schöneberg.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.Berlin_Schöneberg-replace.replacepathregex.regex=^/api/Berlin_Schöneberg(.*)"
+      - "traefik.http.middlewares.Berlin_Schöneberg-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.Berlin_Schöneberg.middlewares=Berlin_Schöneberg-replace"
+    networks:
+      - hub_network
+
+  berlin_schoneberg_charger_gateway:
+    image: charger-gateway:latest
+    container_name: berlin-schoneberg-charger-gateway
+    expose:
+      - "9000"
+    volumes:
+      - ./gateway_config/berlin_schoneberg.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col1:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col1
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col1
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col2:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col2
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col2
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col3:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col3
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col3
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col4:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col4
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col4
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col5:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col5
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col5
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col6:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col6
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col6
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col7:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col7
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col7
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col8:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col8
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col8
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col9:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col9
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col9
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col10:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col10
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col10
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col11:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col11
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col11
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col12:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col12
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col12
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col13:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col13
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col13
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col14:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col14
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col14
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col15:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col15
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col15
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col16:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col16
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col16
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_schoneberg_col17:
+    image: charger-manager-service:latest
+    container_name: berlin-schoneberg-col17
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Schöneberg
+      CHARGER_TO_HANDLE: Berlin_Schöneberg_col17
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+volumes:
+  db_berlin_schoneberg:
+
+networks:
+  hub_network:
+    driver: bridge

@@ -1,0 +1,60 @@
+init:
+  instances:
+    - chargerId: Berlin_Tempelhof_col1
+      url: http://berlin-tempelhof-col1:8080
+    - chargerId: Berlin_Tempelhof_col2
+      url: http://berlin-tempelhof-col2:8080
+    - chargerId: Berlin_Tempelhof_col3
+      url: http://berlin-tempelhof-col3:8080
+    - chargerId: Berlin_Tempelhof_col4
+      url: http://berlin-tempelhof-col4:8080
+    - chargerId: Berlin_Tempelhof_col5
+      url: http://berlin-tempelhof-col5:8080
+    - chargerId: Berlin_Tempelhof_col6
+      url: http://berlin-tempelhof-col6:8080
+    - chargerId: Berlin_Tempelhof_col7
+      url: http://berlin-tempelhof-col7:8080
+    - chargerId: Berlin_Tempelhof_col8
+      url: http://berlin-tempelhof-col8:8080
+    - chargerId: Berlin_Tempelhof_col9
+      url: http://berlin-tempelhof-col9:8080
+    - chargerId: Berlin_Tempelhof_col10
+      url: http://berlin-tempelhof-col10:8080
+    - chargerId: Berlin_Tempelhof_col11
+      url: http://berlin-tempelhof-col11:8080
+    - chargerId: Berlin_Tempelhof_col12
+      url: http://berlin-tempelhof-col12:8080
+    - chargerId: Berlin_Tempelhof_col13
+      url: http://berlin-tempelhof-col13:8080
+    - chargerId: Berlin_Tempelhof_col14
+      url: http://berlin-tempelhof-col14:8080
+    - chargerId: Berlin_Tempelhof_col15
+      url: http://berlin-tempelhof-col15:8080
+    - chargerId: Berlin_Tempelhof_col16
+      url: http://berlin-tempelhof-col16:8080
+    - chargerId: Berlin_Tempelhof_col17
+      url: http://berlin-tempelhof-col17:8080
+    - chargerId: Berlin_Tempelhof_col18
+      url: http://berlin-tempelhof-col18:8080
+    - chargerId: Berlin_Tempelhof_col19
+      url: http://berlin-tempelhof-col19:8080
+    - chargerId: Berlin_Tempelhof_col20
+      url: http://berlin-tempelhof-col20:8080
+    - chargerId: Berlin_Tempelhof_col21
+      url: http://berlin-tempelhof-col21:8080
+    - chargerId: Berlin_Tempelhof_col22
+      url: http://berlin-tempelhof-col22:8080
+    - chargerId: Berlin_Tempelhof_col23
+      url: http://berlin-tempelhof-col23:8080
+    - chargerId: Berlin_Tempelhof_col24
+      url: http://berlin-tempelhof-col24:8080
+    - chargerId: Berlin_Tempelhof_col25
+      url: http://berlin-tempelhof-col25:8080
+    - chargerId: Berlin_Tempelhof_col26
+      url: http://berlin-tempelhof-col26:8080
+    - chargerId: Berlin_Tempelhof_col27
+      url: http://berlin-tempelhof-col27:8080
+    - chargerId: Berlin_Tempelhof_col28
+      url: http://berlin-tempelhof-col28:8080
+    - chargerId: Berlin_Tempelhof_col29
+      url: http://berlin-tempelhof-col29:8080

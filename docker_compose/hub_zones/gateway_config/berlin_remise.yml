@@ -1,0 +1,28 @@
+init:
+  instances:
+    - chargerId: Berlin_Remise_col1
+      url: http://berlin-remise-col1:8080
+    - chargerId: Berlin_Remise_col2
+      url: http://berlin-remise-col2:8080
+    - chargerId: Berlin_Remise_col3
+      url: http://berlin-remise-col3:8080
+    - chargerId: Berlin_Remise_col4
+      url: http://berlin-remise-col4:8080
+    - chargerId: Berlin_Remise_col5
+      url: http://berlin-remise-col5:8080
+    - chargerId: Berlin_Remise_col6
+      url: http://berlin-remise-col6:8080
+    - chargerId: Berlin_Remise_col7
+      url: http://berlin-remise-col7:8080
+    - chargerId: Berlin_Remise_col8
+      url: http://berlin-remise-col8:8080
+    - chargerId: Berlin_Remise_col9
+      url: http://berlin-remise-col9:8080
+    - chargerId: Berlin_Remise_col10
+      url: http://berlin-remise-col10:8080
+    - chargerId: Berlin_Remise_col11
+      url: http://berlin-remise-col11:8080
+    - chargerId: Berlin_Remise_col12
+      url: http://berlin-remise-col12:8080
+    - chargerId: Berlin_Remise_col13
+      url: http://berlin-remise-col13:8080

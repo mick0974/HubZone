@@ -1,0 +1,76 @@
+init:
+  instances:
+    - chargerId: Berlin_Potsdamer_Platz_col1
+      url: http://berlin-potsdamer-platz-col1:8080
+    - chargerId: Berlin_Potsdamer_Platz_col2
+      url: http://berlin-potsdamer-platz-col2:8080
+    - chargerId: Berlin_Potsdamer_Platz_col3
+      url: http://berlin-potsdamer-platz-col3:8080
+    - chargerId: Berlin_Potsdamer_Platz_col4
+      url: http://berlin-potsdamer-platz-col4:8080
+    - chargerId: Berlin_Potsdamer_Platz_col5
+      url: http://berlin-potsdamer-platz-col5:8080
+    - chargerId: Berlin_Potsdamer_Platz_col6
+      url: http://berlin-potsdamer-platz-col6:8080
+    - chargerId: Berlin_Potsdamer_Platz_col7
+      url: http://berlin-potsdamer-platz-col7:8080
+    - chargerId: Berlin_Potsdamer_Platz_col8
+      url: http://berlin-potsdamer-platz-col8:8080
+    - chargerId: Berlin_Potsdamer_Platz_col9
+      url: http://berlin-potsdamer-platz-col9:8080
+    - chargerId: Berlin_Potsdamer_Platz_col10
+      url: http://berlin-potsdamer-platz-col10:8080
+    - chargerId: Berlin_Potsdamer_Platz_col11
+      url: http://berlin-potsdamer-platz-col11:8080
+    - chargerId: Berlin_Potsdamer_Platz_col12
+      url: http://berlin-potsdamer-platz-col12:8080
+    - chargerId: Berlin_Potsdamer_Platz_col13
+      url: http://berlin-potsdamer-platz-col13:8080
+    - chargerId: Berlin_Potsdamer_Platz_col14
+      url: http://berlin-potsdamer-platz-col14:8080
+    - chargerId: Berlin_Potsdamer_Platz_col15
+      url: http://berlin-potsdamer-platz-col15:8080
+    - chargerId: Berlin_Potsdamer_Platz_col16
+      url: http://berlin-potsdamer-platz-col16:8080
+    - chargerId: Berlin_Potsdamer_Platz_col17
+      url: http://berlin-potsdamer-platz-col17:8080
+    - chargerId: Berlin_Potsdamer_Platz_col18
+      url: http://berlin-potsdamer-platz-col18:8080
+    - chargerId: Berlin_Potsdamer_Platz_col19
+      url: http://berlin-potsdamer-platz-col19:8080
+    - chargerId: Berlin_Potsdamer_Platz_col20
+      url: http://berlin-potsdamer-platz-col20:8080
+    - chargerId: Berlin_Potsdamer_Platz_col21
+      url: http://berlin-potsdamer-platz-col21:8080
+    - chargerId: Berlin_Potsdamer_Platz_col22
+      url: http://berlin-potsdamer-platz-col22:8080
+    - chargerId: Berlin_Potsdamer_Platz_col23
+      url: http://berlin-potsdamer-platz-col23:8080
+    - chargerId: Berlin_Potsdamer_Platz_col24
+      url: http://berlin-potsdamer-platz-col24:8080
+    - chargerId: Berlin_Potsdamer_Platz_col25
+      url: http://berlin-potsdamer-platz-col25:8080
+    - chargerId: Berlin_Potsdamer_Platz_col26
+      url: http://berlin-potsdamer-platz-col26:8080
+    - chargerId: Berlin_Potsdamer_Platz_col27
+      url: http://berlin-potsdamer-platz-col27:8080
+    - chargerId: Berlin_Potsdamer_Platz_col28
+      url: http://berlin-potsdamer-platz-col28:8080
+    - chargerId: Berlin_Potsdamer_Platz_col29
+      url: http://berlin-potsdamer-platz-col29:8080
+    - chargerId: Berlin_Potsdamer_Platz_col30
+      url: http://berlin-potsdamer-platz-col30:8080
+    - chargerId: Berlin_Potsdamer_Platz_col31
+      url: http://berlin-potsdamer-platz-col31:8080
+    - chargerId: Berlin_Potsdamer_Platz_col32
+      url: http://berlin-potsdamer-platz-col32:8080
+    - chargerId: Berlin_Potsdamer_Platz_col33
+      url: http://berlin-potsdamer-platz-col33:8080
+    - chargerId: Berlin_Potsdamer_Platz_col34
+      url: http://berlin-potsdamer-platz-col34:8080
+    - chargerId: Berlin_Potsdamer_Platz_col35
+      url: http://berlin-potsdamer-platz-col35:8080
+    - chargerId: Berlin_Potsdamer_Platz_col36
+      url: http://berlin-potsdamer-platz-col36:8080
+    - chargerId: Berlin_Potsdamer_Platz_col37
+      url: http://berlin-potsdamer-platz-col37:8080

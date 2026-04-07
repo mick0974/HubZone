@@ -1,0 +1,300 @@
+name: Berlin_Innenstadt
+
+services:
+  berlin_innenstadt_db:
+    image: postgres:14-alpine3.17
+    container_name: berlin-innenstadt-db
+    volumes:
+      - db_berlin_innenstadt:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt:
+    image: hub-manager-service:latest
+    container_name: berlin-innenstadt-hub
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      berlin_innenstadt_db:
+        condition: service_healthy
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://berlin-innenstadt-charger-gateway:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://berlin-innenstadt-db:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.Berlin_Innenstadt.rule=PathPrefix(`/api/Berlin_Innenstadt`)"
+      - "traefik.http.routers.Berlin_Innenstadt.entrypoints=web"
+      - "traefik.http.services.Berlin_Innenstadt.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.Berlin_Innenstadt-replace.replacepathregex.regex=^/api/Berlin_Innenstadt(.*)"
+      - "traefik.http.middlewares.Berlin_Innenstadt-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.Berlin_Innenstadt.middlewares=Berlin_Innenstadt-replace"
+    networks:
+      - hub_network
+
+  berlin_innenstadt_charger_gateway:
+    image: charger-gateway:latest
+    container_name: berlin-innenstadt-charger-gateway
+    expose:
+      - "9000"
+    volumes:
+      - ./gateway_config/berlin_innenstadt.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col1:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col1
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col1
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col2:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col2
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col2
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col3:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col3
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col3
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col4:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col4
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col4
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col5:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col5
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col5
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col6:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col6
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col6
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col7:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col7
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col7
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col8:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col8
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col8
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col9:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col9
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col9
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col10:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col10
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col10
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_innenstadt_col11:
+    image: charger-manager-service:latest
+    container_name: berlin-innenstadt-col11
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Innenstadt
+      CHARGER_TO_HANDLE: Berlin_Innenstadt_col11
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+volumes:
+  db_berlin_innenstadt:
+
+networks:
+  hub_network:
+    driver: bridge

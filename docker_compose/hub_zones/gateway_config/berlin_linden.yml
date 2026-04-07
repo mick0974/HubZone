@@ -1,0 +1,82 @@
+init:
+  instances:
+    - chargerId: Berlin_Linden_col1
+      url: http://berlin-linden-col1:8080
+    - chargerId: Berlin_Linden_col2
+      url: http://berlin-linden-col2:8080
+    - chargerId: Berlin_Linden_col3
+      url: http://berlin-linden-col3:8080
+    - chargerId: Berlin_Linden_col4
+      url: http://berlin-linden-col4:8080
+    - chargerId: Berlin_Linden_col5
+      url: http://berlin-linden-col5:8080
+    - chargerId: Berlin_Linden_col6
+      url: http://berlin-linden-col6:8080
+    - chargerId: Berlin_Linden_col7
+      url: http://berlin-linden-col7:8080
+    - chargerId: Berlin_Linden_col8
+      url: http://berlin-linden-col8:8080
+    - chargerId: Berlin_Linden_col9
+      url: http://berlin-linden-col9:8080
+    - chargerId: Berlin_Linden_col10
+      url: http://berlin-linden-col10:8080
+    - chargerId: Berlin_Linden_col11
+      url: http://berlin-linden-col11:8080
+    - chargerId: Berlin_Linden_col12
+      url: http://berlin-linden-col12:8080
+    - chargerId: Berlin_Linden_col13
+      url: http://berlin-linden-col13:8080
+    - chargerId: Berlin_Linden_col14
+      url: http://berlin-linden-col14:8080
+    - chargerId: Berlin_Linden_col15
+      url: http://berlin-linden-col15:8080
+    - chargerId: Berlin_Linden_col16
+      url: http://berlin-linden-col16:8080
+    - chargerId: Berlin_Linden_col17
+      url: http://berlin-linden-col17:8080
+    - chargerId: Berlin_Linden_col18
+      url: http://berlin-linden-col18:8080
+    - chargerId: Berlin_Linden_col19
+      url: http://berlin-linden-col19:8080
+    - chargerId: Berlin_Linden_col20
+      url: http://berlin-linden-col20:8080
+    - chargerId: Berlin_Linden_col21
+      url: http://berlin-linden-col21:8080
+    - chargerId: Berlin_Linden_col22
+      url: http://berlin-linden-col22:8080
+    - chargerId: Berlin_Linden_col23
+      url: http://berlin-linden-col23:8080
+    - chargerId: Berlin_Linden_col24
+      url: http://berlin-linden-col24:8080
+    - chargerId: Berlin_Linden_col25
+      url: http://berlin-linden-col25:8080
+    - chargerId: Berlin_Linden_col26
+      url: http://berlin-linden-col26:8080
+    - chargerId: Berlin_Linden_col27
+      url: http://berlin-linden-col27:8080
+    - chargerId: Berlin_Linden_col28
+      url: http://berlin-linden-col28:8080
+    - chargerId: Berlin_Linden_col29
+      url: http://berlin-linden-col29:8080
+    - chargerId: Berlin_Linden_col30
+      url: http://berlin-linden-col30:8080
+    - chargerId: Berlin_Linden_col31
+      url: http://berlin-linden-col31:8080
+    - chargerId: Berlin_Linden_col32
+      url: http://berlin-linden-col32:8080
+    - chargerId: Berlin_Linden_col33
+      url: http://berlin-linden-col33:8080
+    - chargerId: Berlin_Linden_col34
+      url: http://berlin-linden-col34:8080
+    - chargerId: Berlin_Linden_col35
+      url: http://berlin-linden-col35:8080
+    - chargerId: Berlin_Linden_col36
+      url: http://berlin-linden-col36:8080
+    - chargerId: Berlin_Linden_col37
+      url: http://berlin-linden-col37:8080
+    - chargerId: Berlin_Linden_col38
+      url: http://berlin-linden-col38:8080
+    - chargerId: Berlin_Linden_col39
+      url: http://berlin-linden-col39:8080
+    - chargerId: Berlin_Linden_col40
+      url: http://berlin-linden-col40:8080

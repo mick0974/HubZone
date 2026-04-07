@@ -84,7 +84,7 @@ public class HubManagementController {
         return ResponseEntity.status(HttpStatus.OK).body(chargerStateDTO);
     }
 
-    @PutMapping(value = {"/charger/{chargerId}/activate", "/charger/{chargerId}/poweron"})
+    @PostMapping(value = {"/charger/{chargerId}/activate", "/charger/{chargerId}/poweron"})
     @Operation(
             summary = "Attiva la colonnina selezionata",
             description = "Modifica lo stato della colonnina selezionata in \"attiva\""
@@ -108,7 +108,7 @@ public class HubManagementController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PutMapping(value = {"/charger/{chargerId}/deactivate", "/charger/{chargerId}/poweroff"})
+    @PostMapping(value = {"/charger/{chargerId}/deactivate", "/charger/{chargerId}/poweroff"})
     @Operation(
             summary = "Disattiva la colonnina selezionata",
             description = "Modifica lo stato della colonnina selezionata in \"disattiva\""

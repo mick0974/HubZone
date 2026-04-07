@@ -1,0 +1,66 @@
+init:
+  instances:
+    - chargerId: Berlin_Humboldthain_col1
+      url: http://berlin-humboldthain-col1:8080
+    - chargerId: Berlin_Humboldthain_col2
+      url: http://berlin-humboldthain-col2:8080
+    - chargerId: Berlin_Humboldthain_col3
+      url: http://berlin-humboldthain-col3:8080
+    - chargerId: Berlin_Humboldthain_col4
+      url: http://berlin-humboldthain-col4:8080
+    - chargerId: Berlin_Humboldthain_col5
+      url: http://berlin-humboldthain-col5:8080
+    - chargerId: Berlin_Humboldthain_col6
+      url: http://berlin-humboldthain-col6:8080
+    - chargerId: Berlin_Humboldthain_col7
+      url: http://berlin-humboldthain-col7:8080
+    - chargerId: Berlin_Humboldthain_col8
+      url: http://berlin-humboldthain-col8:8080
+    - chargerId: Berlin_Humboldthain_col9
+      url: http://berlin-humboldthain-col9:8080
+    - chargerId: Berlin_Humboldthain_col10
+      url: http://berlin-humboldthain-col10:8080
+    - chargerId: Berlin_Humboldthain_col11
+      url: http://berlin-humboldthain-col11:8080
+    - chargerId: Berlin_Humboldthain_col12
+      url: http://berlin-humboldthain-col12:8080
+    - chargerId: Berlin_Humboldthain_col13
+      url: http://berlin-humboldthain-col13:8080
+    - chargerId: Berlin_Humboldthain_col14
+      url: http://berlin-humboldthain-col14:8080
+    - chargerId: Berlin_Humboldthain_col15
+      url: http://berlin-humboldthain-col15:8080
+    - chargerId: Berlin_Humboldthain_col16
+      url: http://berlin-humboldthain-col16:8080
+    - chargerId: Berlin_Humboldthain_col17
+      url: http://berlin-humboldthain-col17:8080
+    - chargerId: Berlin_Humboldthain_col18
+      url: http://berlin-humboldthain-col18:8080
+    - chargerId: Berlin_Humboldthain_col19
+      url: http://berlin-humboldthain-col19:8080
+    - chargerId: Berlin_Humboldthain_col20
+      url: http://berlin-humboldthain-col20:8080
+    - chargerId: Berlin_Humboldthain_col21
+      url: http://berlin-humboldthain-col21:8080
+    - chargerId: Berlin_Humboldthain_col22
+      url: http://berlin-humboldthain-col22:8080
+    - chargerId: Berlin_Humboldthain_col23
+      url: http://berlin-humboldthain-col23:8080
+    - chargerId: Berlin_Humboldthain_col24
+      url: http://berlin-humboldthain-col24:8080
+    - chargerId: Berlin_Humboldthain_col25
+      url: http://berlin-humboldthain-col25:8080
+    - chargerId: Berlin_Humboldthain_col26
+      url: http://berlin-humboldthain-col26:8080
+    - chargerId: Berlin_Humboldthain_col27
+      url: http://berlin-humboldthain-col27:8080
+    - chargerId: Berlin_Humboldthain_col28
+      url: http://berlin-humboldthain-col28:8080
+    - chargerId: Berlin_Humboldthain_col29
+      url: http://berlin-humboldthain-col29:8080
+    - chargerId: Berlin_Humboldthain_col30
+      url: http://berlin-humboldthain-col30:8080
+    - chargerId: Berlin_Humboldthain_col31
+      url: http://berlin-humboldthain-col31:8080
+    - chargerId: Berlin_Humboldthain_col32
+      url: http://berlin-humboldthain-col32:8080

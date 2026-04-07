@@ -1,0 +1,48 @@
+init:
+  instances:
+    - chargerId: Berlin_Danzinger_col1
+      url: http://berlin-danzinger-col1:8080
+    - chargerId: Berlin_Danzinger_col2
+      url: http://berlin-danzinger-col2:8080
+    - chargerId: Berlin_Danzinger_col3
+      url: http://berlin-danzinger-col3:8080
+    - chargerId: Berlin_Danzinger_col4
+      url: http://berlin-danzinger-col4:8080
+    - chargerId: Berlin_Danzinger_col5
+      url: http://berlin-danzinger-col5:8080
+    - chargerId: Berlin_Danzinger_col6
+      url: http://berlin-danzinger-col6:8080
+    - chargerId: Berlin_Danzinger_col7
+      url: http://berlin-danzinger-col7:8080
+    - chargerId: Berlin_Danzinger_col8
+      url: http://berlin-danzinger-col8:8080
+    - chargerId: Berlin_Danzinger_col9
+      url: http://berlin-danzinger-col9:8080
+    - chargerId: Berlin_Danzinger_col10
+      url: http://berlin-danzinger-col10:8080
+    - chargerId: Berlin_Danzinger_col11
+      url: http://berlin-danzinger-col11:8080
+    - chargerId: Berlin_Danzinger_col12
+      url: http://berlin-danzinger-col12:8080
+    - chargerId: Berlin_Danzinger_col13
+      url: http://berlin-danzinger-col13:8080
+    - chargerId: Berlin_Danzinger_col14
+      url: http://berlin-danzinger-col14:8080
+    - chargerId: Berlin_Danzinger_col15
+      url: http://berlin-danzinger-col15:8080
+    - chargerId: Berlin_Danzinger_col16
+      url: http://berlin-danzinger-col16:8080
+    - chargerId: Berlin_Danzinger_col17
+      url: http://berlin-danzinger-col17:8080
+    - chargerId: Berlin_Danzinger_col18
+      url: http://berlin-danzinger-col18:8080
+    - chargerId: Berlin_Danzinger_col19
+      url: http://berlin-danzinger-col19:8080
+    - chargerId: Berlin_Danzinger_col20
+      url: http://berlin-danzinger-col20:8080
+    - chargerId: Berlin_Danzinger_col21
+      url: http://berlin-danzinger-col21:8080
+    - chargerId: Berlin_Danzinger_col22
+      url: http://berlin-danzinger-col22:8080
+    - chargerId: Berlin_Danzinger_col23
+      url: http://berlin-danzinger-col23:8080

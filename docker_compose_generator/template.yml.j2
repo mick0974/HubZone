@@ -1,0 +1,102 @@
+name: {{ hub_name }}
+
+services:
+  {{ service_name }}_db:
+    image: postgres:14-alpine3.17
+    container_name: {{ container_name }}-db
+    volumes:
+      - db_{{ service_name }}:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  {{ service_name }}:
+    image: hub-manager-service:latest
+    container_name: {{ container_name }}-hub
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      {{ service_name }}_db:
+        condition: service_healthy
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      HUB_TO_HANDLE: {{ hub_name }}
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://{{ container_name }}-charger-gateway:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://{{ container_name }}-db:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.{{ hub_name }}.rule=PathPrefix(`/api/{{ hub_name }}`)"
+      - "traefik.http.routers.{{ hub_name }}.entrypoints=web"
+      - "traefik.http.services.{{ hub_name }}.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.{{ hub_name }}-replace.replacepathregex.regex=^/api/{{ hub_name }}(.*)"
+      - "traefik.http.middlewares.{{ hub_name }}-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.{{ hub_name }}.middlewares={{ hub_name }}-replace"
+    networks:
+      - hub_network
+
+  {{ service_name }}_charger_gateway:
+    image: charger-gateway:latest
+    container_name: {{ container_name }}-charger-gateway
+    expose:
+      - "9000"
+    volumes:
+      - ./gateway_config/{{ service_name }}.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+{% for i in range(1, col_count + 1) %}
+  {{ service_name }}_col{{ i }}:
+    image: charger-manager-service:latest
+    container_name: {{ container_name }}-col{{ i }}
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: {{ hub_name }}
+      CHARGER_TO_HANDLE: {{ hub_name }}_col{{ i }}
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+{% endfor %}
+volumes:
+  db_{{ service_name }}:
+
+networks:
+  hub_network:
+    driver: bridge

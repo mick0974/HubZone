@@ -1,0 +1,72 @@
+init:
+  instances:
+    - chargerId: Berlin_Heinrich_Heine_col1
+      url: http://berlin-heinrich-heine-col1:8080
+    - chargerId: Berlin_Heinrich_Heine_col2
+      url: http://berlin-heinrich-heine-col2:8080
+    - chargerId: Berlin_Heinrich_Heine_col3
+      url: http://berlin-heinrich-heine-col3:8080
+    - chargerId: Berlin_Heinrich_Heine_col4
+      url: http://berlin-heinrich-heine-col4:8080
+    - chargerId: Berlin_Heinrich_Heine_col5
+      url: http://berlin-heinrich-heine-col5:8080
+    - chargerId: Berlin_Heinrich_Heine_col6
+      url: http://berlin-heinrich-heine-col6:8080
+    - chargerId: Berlin_Heinrich_Heine_col7
+      url: http://berlin-heinrich-heine-col7:8080
+    - chargerId: Berlin_Heinrich_Heine_col8
+      url: http://berlin-heinrich-heine-col8:8080
+    - chargerId: Berlin_Heinrich_Heine_col9
+      url: http://berlin-heinrich-heine-col9:8080
+    - chargerId: Berlin_Heinrich_Heine_col10
+      url: http://berlin-heinrich-heine-col10:8080
+    - chargerId: Berlin_Heinrich_Heine_col11
+      url: http://berlin-heinrich-heine-col11:8080
+    - chargerId: Berlin_Heinrich_Heine_col12
+      url: http://berlin-heinrich-heine-col12:8080
+    - chargerId: Berlin_Heinrich_Heine_col13
+      url: http://berlin-heinrich-heine-col13:8080
+    - chargerId: Berlin_Heinrich_Heine_col14
+      url: http://berlin-heinrich-heine-col14:8080
+    - chargerId: Berlin_Heinrich_Heine_col15
+      url: http://berlin-heinrich-heine-col15:8080
+    - chargerId: Berlin_Heinrich_Heine_col16
+      url: http://berlin-heinrich-heine-col16:8080
+    - chargerId: Berlin_Heinrich_Heine_col17
+      url: http://berlin-heinrich-heine-col17:8080
+    - chargerId: Berlin_Heinrich_Heine_col18
+      url: http://berlin-heinrich-heine-col18:8080
+    - chargerId: Berlin_Heinrich_Heine_col19
+      url: http://berlin-heinrich-heine-col19:8080
+    - chargerId: Berlin_Heinrich_Heine_col20
+      url: http://berlin-heinrich-heine-col20:8080
+    - chargerId: Berlin_Heinrich_Heine_col21
+      url: http://berlin-heinrich-heine-col21:8080
+    - chargerId: Berlin_Heinrich_Heine_col22
+      url: http://berlin-heinrich-heine-col22:8080
+    - chargerId: Berlin_Heinrich_Heine_col23
+      url: http://berlin-heinrich-heine-col23:8080
+    - chargerId: Berlin_Heinrich_Heine_col24
+      url: http://berlin-heinrich-heine-col24:8080
+    - chargerId: Berlin_Heinrich_Heine_col25
+      url: http://berlin-heinrich-heine-col25:8080
+    - chargerId: Berlin_Heinrich_Heine_col26
+      url: http://berlin-heinrich-heine-col26:8080
+    - chargerId: Berlin_Heinrich_Heine_col27
+      url: http://berlin-heinrich-heine-col27:8080
+    - chargerId: Berlin_Heinrich_Heine_col28
+      url: http://berlin-heinrich-heine-col28:8080
+    - chargerId: Berlin_Heinrich_Heine_col29
+      url: http://berlin-heinrich-heine-col29:8080
+    - chargerId: Berlin_Heinrich_Heine_col30
+      url: http://berlin-heinrich-heine-col30:8080
+    - chargerId: Berlin_Heinrich_Heine_col31
+      url: http://berlin-heinrich-heine-col31:8080
+    - chargerId: Berlin_Heinrich_Heine_col32
+      url: http://berlin-heinrich-heine-col32:8080
+    - chargerId: Berlin_Heinrich_Heine_col33
+      url: http://berlin-heinrich-heine-col33:8080
+    - chargerId: Berlin_Heinrich_Heine_col34
+      url: http://berlin-heinrich-heine-col34:8080
+    - chargerId: Berlin_Heinrich_Heine_col35
+      url: http://berlin-heinrich-heine-col35:8080

@@ -1,0 +1,540 @@
+name: Berlin_Sophienkirchhof
+
+services:
+  berlin_sophienkirchhof_db:
+    image: postgres:14-alpine3.17
+    container_name: berlin-sophienkirchhof-db
+    volumes:
+      - db_berlin_sophienkirchhof:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hub_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    expose:
+      - "5432"
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof:
+    image: hub-manager-service:latest
+    container_name: berlin-sophienkirchhof-hub
+    expose:
+      - "8081"
+    depends_on:
+      traefik:
+        condition: service_started
+      berlin_sophienkirchhof_db:
+        condition: service_healthy
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      INITIALIZE_ON_STARTUP: true
+      CHARGER_GATEWAY_URL: http://berlin-sophienkirchhof-charger-gateway:9000
+      INITIAL_DELAY_POLL: 5000
+      FIXED_DELAY_POLL: 5000
+
+      KAFKA_SERVER: broker:29092
+      KAFKA_TOPIC: hub_state
+
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_URL: jdbc:postgresql://berlin-sophienkirchhof-db:5432/hub_db
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.Berlin_Sophienkirchhof.rule=PathPrefix(`/api/Berlin_Sophienkirchhof`)"
+      - "traefik.http.routers.Berlin_Sophienkirchhof.entrypoints=web"
+      - "traefik.http.services.Berlin_Sophienkirchhof.loadbalancer.server.port=8081"
+
+      - "traefik.http.middlewares.Berlin_Sophienkirchhof-replace.replacepathregex.regex=^/api/Berlin_Sophienkirchhof(.*)"
+      - "traefik.http.middlewares.Berlin_Sophienkirchhof-replace.replacepathregex.replacement=/api/hub$$1"
+      - "traefik.http.routers.Berlin_Sophienkirchhof.middlewares=Berlin_Sophienkirchhof-replace"
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_charger_gateway:
+    image: charger-gateway:latest
+    container_name: berlin-sophienkirchhof-charger-gateway
+    expose:
+      - "9000"
+    volumes:
+      - ./gateway_config/berlin_sophienkirchhof.yml:/app/additional_config/application.yml
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col1:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col1
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col1
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col2:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col2
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col2
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col3:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col3
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col3
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col4:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col4
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col4
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col5:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col5
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col5
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col6:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col6
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col6
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col7:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col7
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col7
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col8:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col8
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col8
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col9:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col9
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col9
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col10:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col10
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col10
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col11:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col11
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col11
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col12:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col12
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col12
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col13:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col13
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col13
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col14:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col14
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col14
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col15:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col15
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col15
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col16:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col16
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col16
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col17:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col17
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col17
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col18:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col18
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col18
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col19:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col19
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col19
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col20:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col20
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col20
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col21:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col21
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col21
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col22:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col22
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col22
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+  berlin_sophienkirchhof_col23:
+    image: charger-manager-service:latest
+    container_name: berlin-sophienkirchhof-col23
+    expose:
+      - "8080"
+    depends_on:
+      traefik:
+        condition: service_started
+      init_service:
+        condition: service_completed_successfully
+    environment:
+      INITIALIZE_ON_STARTUP: true
+      HUB_TO_HANDLE: Berlin_Sophienkirchhof
+      CHARGER_TO_HANDLE: Berlin_Sophienkirchhof_col23
+      SIMULATION_API_BASE_URL: http://host.docker.internal:8090/api
+      SIMULATION_WEBSOCKET_URL: ws://host.docker.internal:8090/ws/simulation
+    restart: unless-stopped
+    networks:
+      - hub_network
+
+volumes:
+  db_berlin_sophienkirchhof:
+
+networks:
+  hub_network:
+    driver: bridge

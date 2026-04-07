@@ -1,6 +1,0 @@
-init:
-  instances:
-    - chargerId: hub_charlottenburg_col1
-      url: http://charlottenburg-col1:8080
-    - chargerId: hub_charlottenburg_col2
-      url: http://charlottenburg-col2:8080

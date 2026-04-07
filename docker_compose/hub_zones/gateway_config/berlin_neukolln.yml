@@ -1,0 +1,36 @@
+init:
+  instances:
+    - chargerId: Berlin_Neukölln_col1
+      url: http://berlin-neukolln-col1:8080
+    - chargerId: Berlin_Neukölln_col2
+      url: http://berlin-neukolln-col2:8080
+    - chargerId: Berlin_Neukölln_col3
+      url: http://berlin-neukolln-col3:8080
+    - chargerId: Berlin_Neukölln_col4
+      url: http://berlin-neukolln-col4:8080
+    - chargerId: Berlin_Neukölln_col5
+      url: http://berlin-neukolln-col5:8080
+    - chargerId: Berlin_Neukölln_col6
+      url: http://berlin-neukolln-col6:8080
+    - chargerId: Berlin_Neukölln_col7
+      url: http://berlin-neukolln-col7:8080
+    - chargerId: Berlin_Neukölln_col8
+      url: http://berlin-neukolln-col8:8080
+    - chargerId: Berlin_Neukölln_col9
+      url: http://berlin-neukolln-col9:8080
+    - chargerId: Berlin_Neukölln_col10
+      url: http://berlin-neukolln-col10:8080
+    - chargerId: Berlin_Neukölln_col11
+      url: http://berlin-neukolln-col11:8080
+    - chargerId: Berlin_Neukölln_col12
+      url: http://berlin-neukolln-col12:8080
+    - chargerId: Berlin_Neukölln_col13
+      url: http://berlin-neukolln-col13:8080
+    - chargerId: Berlin_Neukölln_col14
+      url: http://berlin-neukolln-col14:8080
+    - chargerId: Berlin_Neukölln_col15
+      url: http://berlin-neukolln-col15:8080
+    - chargerId: Berlin_Neukölln_col16
+      url: http://berlin-neukolln-col16:8080
+    - chargerId: Berlin_Neukölln_col17
+      url: http://berlin-neukolln-col17:8080

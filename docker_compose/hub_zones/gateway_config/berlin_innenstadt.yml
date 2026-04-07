@@ -1,0 +1,24 @@
+init:
+  instances:
+    - chargerId: Berlin_Innenstadt_col1
+      url: http://berlin-innenstadt-col1:8080
+    - chargerId: Berlin_Innenstadt_col2
+      url: http://berlin-innenstadt-col2:8080
+    - chargerId: Berlin_Innenstadt_col3
+      url: http://berlin-innenstadt-col3:8080
+    - chargerId: Berlin_Innenstadt_col4
+      url: http://berlin-innenstadt-col4:8080
+    - chargerId: Berlin_Innenstadt_col5
+      url: http://berlin-innenstadt-col5:8080
+    - chargerId: Berlin_Innenstadt_col6
+      url: http://berlin-innenstadt-col6:8080
+    - chargerId: Berlin_Innenstadt_col7
+      url: http://berlin-innenstadt-col7:8080
+    - chargerId: Berlin_Innenstadt_col8
+      url: http://berlin-innenstadt-col8:8080
+    - chargerId: Berlin_Innenstadt_col9
+      url: http://berlin-innenstadt-col9:8080
+    - chargerId: Berlin_Innenstadt_col10
+      url: http://berlin-innenstadt-col10:8080
+    - chargerId: Berlin_Innenstadt_col11
+      url: http://berlin-innenstadt-col11:8080

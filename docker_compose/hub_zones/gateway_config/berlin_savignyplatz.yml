@@ -1,0 +1,24 @@
+init:
+  instances:
+    - chargerId: Berlin_Savignyplatz_col1
+      url: http://berlin-savignyplatz-col1:8080
+    - chargerId: Berlin_Savignyplatz_col2
+      url: http://berlin-savignyplatz-col2:8080
+    - chargerId: Berlin_Savignyplatz_col3
+      url: http://berlin-savignyplatz-col3:8080
+    - chargerId: Berlin_Savignyplatz_col4
+      url: http://berlin-savignyplatz-col4:8080
+    - chargerId: Berlin_Savignyplatz_col5
+      url: http://berlin-savignyplatz-col5:8080
+    - chargerId: Berlin_Savignyplatz_col6
+      url: http://berlin-savignyplatz-col6:8080
+    - chargerId: Berlin_Savignyplatz_col7
+      url: http://berlin-savignyplatz-col7:8080
+    - chargerId: Berlin_Savignyplatz_col8
+      url: http://berlin-savignyplatz-col8:8080
+    - chargerId: Berlin_Savignyplatz_col9
+      url: http://berlin-savignyplatz-col9:8080
+    - chargerId: Berlin_Savignyplatz_col10
+      url: http://berlin-savignyplatz-col10:8080
+    - chargerId: Berlin_Savignyplatz_col11
+      url: http://berlin-savignyplatz-col11:8080

@@ -1,0 +1,76 @@
+init:
+  instances:
+    - chargerId: Berlin_Rosenthaler_col1
+      url: http://berlin-rosenthaler-col1:8080
+    - chargerId: Berlin_Rosenthaler_col2
+      url: http://berlin-rosenthaler-col2:8080
+    - chargerId: Berlin_Rosenthaler_col3
+      url: http://berlin-rosenthaler-col3:8080
+    - chargerId: Berlin_Rosenthaler_col4
+      url: http://berlin-rosenthaler-col4:8080
+    - chargerId: Berlin_Rosenthaler_col5
+      url: http://berlin-rosenthaler-col5:8080
+    - chargerId: Berlin_Rosenthaler_col6
+      url: http://berlin-rosenthaler-col6:8080
+    - chargerId: Berlin_Rosenthaler_col7
+      url: http://berlin-rosenthaler-col7:8080
+    - chargerId: Berlin_Rosenthaler_col8
+      url: http://berlin-rosenthaler-col8:8080
+    - chargerId: Berlin_Rosenthaler_col9
+      url: http://berlin-rosenthaler-col9:8080
+    - chargerId: Berlin_Rosenthaler_col10
+      url: http://berlin-rosenthaler-col10:8080
+    - chargerId: Berlin_Rosenthaler_col11
+      url: http://berlin-rosenthaler-col11:8080
+    - chargerId: Berlin_Rosenthaler_col12
+      url: http://berlin-rosenthaler-col12:8080
+    - chargerId: Berlin_Rosenthaler_col13
+      url: http://berlin-rosenthaler-col13:8080
+    - chargerId: Berlin_Rosenthaler_col14
+      url: http://berlin-rosenthaler-col14:8080
+    - chargerId: Berlin_Rosenthaler_col15
+      url: http://berlin-rosenthaler-col15:8080
+    - chargerId: Berlin_Rosenthaler_col16
+      url: http://berlin-rosenthaler-col16:8080
+    - chargerId: Berlin_Rosenthaler_col17
+      url: http://berlin-rosenthaler-col17:8080
+    - chargerId: Berlin_Rosenthaler_col18
+      url: http://berlin-rosenthaler-col18:8080
+    - chargerId: Berlin_Rosenthaler_col19
+      url: http://berlin-rosenthaler-col19:8080
+    - chargerId: Berlin_Rosenthaler_col20
+      url: http://berlin-rosenthaler-col20:8080
+    - chargerId: Berlin_Rosenthaler_col21
+      url: http://berlin-rosenthaler-col21:8080
+    - chargerId: Berlin_Rosenthaler_col22
+      url: http://berlin-rosenthaler-col22:8080
+    - chargerId: Berlin_Rosenthaler_col23
+      url: http://berlin-rosenthaler-col23:8080
+    - chargerId: Berlin_Rosenthaler_col24
+      url: http://berlin-rosenthaler-col24:8080
+    - chargerId: Berlin_Rosenthaler_col25
+      url: http://berlin-rosenthaler-col25:8080
+    - chargerId: Berlin_Rosenthaler_col26
+      url: http://berlin-rosenthaler-col26:8080
+    - chargerId: Berlin_Rosenthaler_col27
+      url: http://berlin-rosenthaler-col27:8080
+    - chargerId: Berlin_Rosenthaler_col28
+      url: http://berlin-rosenthaler-col28:8080
+    - chargerId: Berlin_Rosenthaler_col29
+      url: http://berlin-rosenthaler-col29:8080
+    - chargerId: Berlin_Rosenthaler_col30
+      url: http://berlin-rosenthaler-col30:8080
+    - chargerId: Berlin_Rosenthaler_col31
+      url: http://berlin-rosenthaler-col31:8080
+    - chargerId: Berlin_Rosenthaler_col32
+      url: http://berlin-rosenthaler-col32:8080
+    - chargerId: Berlin_Rosenthaler_col33
+      url: http://berlin-rosenthaler-col33:8080
+    - chargerId: Berlin_Rosenthaler_col34
+      url: http://berlin-rosenthaler-col34:8080
+    - chargerId: Berlin_Rosenthaler_col35
+      url: http://berlin-rosenthaler-col35:8080
+    - chargerId: Berlin_Rosenthaler_col36
+      url: http://berlin-rosenthaler-col36:8080
+    - chargerId: Berlin_Rosenthaler_col37
+      url: http://berlin-rosenthaler-col37:8080

@@ -1,0 +1,34 @@
+init:
+  instances:
+    - chargerId: Berlin_hamburger_col1
+      url: http://berlin-hamburger-col1:8080
+    - chargerId: Berlin_hamburger_col2
+      url: http://berlin-hamburger-col2:8080
+    - chargerId: Berlin_hamburger_col3
+      url: http://berlin-hamburger-col3:8080
+    - chargerId: Berlin_hamburger_col4
+      url: http://berlin-hamburger-col4:8080
+    - chargerId: Berlin_hamburger_col5
+      url: http://berlin-hamburger-col5:8080
+    - chargerId: Berlin_hamburger_col6
+      url: http://berlin-hamburger-col6:8080
+    - chargerId: Berlin_hamburger_col7
+      url: http://berlin-hamburger-col7:8080
+    - chargerId: Berlin_hamburger_col8
+      url: http://berlin-hamburger-col8:8080
+    - chargerId: Berlin_hamburger_col9
+      url: http://berlin-hamburger-col9:8080
+    - chargerId: Berlin_hamburger_col10
+      url: http://berlin-hamburger-col10:8080
+    - chargerId: Berlin_hamburger_col11
+      url: http://berlin-hamburger-col11:8080
+    - chargerId: Berlin_hamburger_col12
+      url: http://berlin-hamburger-col12:8080
+    - chargerId: Berlin_hamburger_col13
+      url: http://berlin-hamburger-col13:8080
+    - chargerId: Berlin_hamburger_col14
+      url: http://berlin-hamburger-col14:8080
+    - chargerId: Berlin_hamburger_col15
+      url: http://berlin-hamburger-col15:8080
+    - chargerId: Berlin_hamburger_col16
+      url: http://berlin-hamburger-col16:8080

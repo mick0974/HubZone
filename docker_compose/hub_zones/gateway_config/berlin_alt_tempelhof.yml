@@ -1,0 +1,6 @@
+init:
+  instances:
+    - chargerId: Berlin_Alt_Tempelhof_col1
+      url: http://berlin-alt-tempelhof-col1:8080
+    - chargerId: Berlin_Alt_Tempelhof_col2
+      url: http://berlin-alt-tempelhof-col2:8080

@@ -1,0 +1,36 @@
+init:
+  instances:
+    - chargerId: Berlin_Schöneberg_col1
+      url: http://berlin-schoneberg-col1:8080
+    - chargerId: Berlin_Schöneberg_col2
+      url: http://berlin-schoneberg-col2:8080
+    - chargerId: Berlin_Schöneberg_col3
+      url: http://berlin-schoneberg-col3:8080
+    - chargerId: Berlin_Schöneberg_col4
+      url: http://berlin-schoneberg-col4:8080
+    - chargerId: Berlin_Schöneberg_col5
+      url: http://berlin-schoneberg-col5:8080
+    - chargerId: Berlin_Schöneberg_col6
+      url: http://berlin-schoneberg-col6:8080
+    - chargerId: Berlin_Schöneberg_col7
+      url: http://berlin-schoneberg-col7:8080
+    - chargerId: Berlin_Schöneberg_col8
+      url: http://berlin-schoneberg-col8:8080
+    - chargerId: Berlin_Schöneberg_col9
+      url: http://berlin-schoneberg-col9:8080
+    - chargerId: Berlin_Schöneberg_col10
+      url: http://berlin-schoneberg-col10:8080
+    - chargerId: Berlin_Schöneberg_col11
+      url: http://berlin-schoneberg-col11:8080
+    - chargerId: Berlin_Schöneberg_col12
+      url: http://berlin-schoneberg-col12:8080
+    - chargerId: Berlin_Schöneberg_col13
+      url: http://berlin-schoneberg-col13:8080
+    - chargerId: Berlin_Schöneberg_col14
+      url: http://berlin-schoneberg-col14:8080
+    - chargerId: Berlin_Schöneberg_col15
+      url: http://berlin-schoneberg-col15:8080
+    - chargerId: Berlin_Schöneberg_col16
+      url: http://berlin-schoneberg-col16:8080
+    - chargerId: Berlin_Schöneberg_col17
+      url: http://berlin-schoneberg-col17:8080

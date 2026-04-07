@@ -18,6 +18,14 @@ services:
     networks:
       - hub_network
 
+  init_service:
+    image: curlimages/curl:latest
+    container_name: init-service
+    command: ["curl", "--fail", "-X", "POST", "http://host.docker.internal:8090/api/hub"]
+    restart: "no"
+    networks:
+      - hub_network
+
   broker:
     image: apache/kafka:latest
     hostname: broker
@@ -59,14 +67,32 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker:29092
     networks:
       - hub_network
+
 include:
-  - ./hub_zones/docker-compose_central-station.yml
-  - ./hub_zones/docker-compose_charlottenburg.yml
-  - ./hub_zones/docker-compose_eastside.yml
- # - ./hub_zones/docker-compose_modern-gallery.yml
- # - ./hub_zones/docker-compose_potsdamer-platz.yml
- # - ./hub_zones/docker-compose_tempelhofer-Park.yml
- # - ./hub_zones/docker-compose_tiergarten.yml
+  - ./hub_zones/docker-compose.berlin_alt_tempelhof.yml
+  # - ./hub_zones/docker-compose.berlin_danzinger.yml
+  # - ./hub_zones/docker-compose.berlin_friedhof.yml
+  # - ./hub_zones/docker-compose.berlin_hamburger.yml
+  # - ./hub_zones/docker-compose.berlin_hansaplatz.yml
+  # - ./hub_zones/docker-compose.berlin_heinrich_heine.yml
+  # - ./hub_zones/docker-compose.berlin_hospital.yml
+  # - ./hub_zones/docker-compose.berlin_humboldthain.yml
+  # - ./hub_zones/docker-compose.berlin_innenstadt.yml
+  # - ./hub_zones/docker-compose.berlin_linden.yml
+  # - ./hub_zones/docker-compose.berlin_memhardstr.yml
+  # - ./hub_zones/docker-compose.berlin_neukolln.yml
+  # - ./hub_zones/docker-compose.berlin_potsdamer_platz.yml
+  # - ./hub_zones/docker-compose.berlin_prenzlauer_berg.yml
+  # - ./hub_zones/docker-compose.berlin_rehberge.yml
+  # - ./hub_zones/docker-compose.berlin_remise.yml
+  # - ./hub_zones/docker-compose.berlin_rosenthaler.yml
+  # - ./hub_zones/docker-compose.berlin_savignyplatz.yml
+  # - ./hub_zones/docker-compose.berlin_schoneberg.yml
+  # - ./hub_zones/docker-compose.berlin_sophienkirchhof.yml
+  # - ./hub_zones/docker-compose.berlin_spichernstr.yml
+  # - ./hub_zones/docker-compose.berlin_tempelhof.yml
+  # - ./hub_zones/docker-compose.berlin_wolff_park.yml
+
 
 networks:
   hub_network:

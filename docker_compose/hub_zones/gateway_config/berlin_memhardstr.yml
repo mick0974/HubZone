@@ -1,0 +1,72 @@
+init:
+  instances:
+    - chargerId: Berlin_Memhardstr_col1
+      url: http://berlin-memhardstr-col1:8080
+    - chargerId: Berlin_Memhardstr_col2
+      url: http://berlin-memhardstr-col2:8080
+    - chargerId: Berlin_Memhardstr_col3
+      url: http://berlin-memhardstr-col3:8080
+    - chargerId: Berlin_Memhardstr_col4
+      url: http://berlin-memhardstr-col4:8080
+    - chargerId: Berlin_Memhardstr_col5
+      url: http://berlin-memhardstr-col5:8080
+    - chargerId: Berlin_Memhardstr_col6
+      url: http://berlin-memhardstr-col6:8080
+    - chargerId: Berlin_Memhardstr_col7
+      url: http://berlin-memhardstr-col7:8080
+    - chargerId: Berlin_Memhardstr_col8
+      url: http://berlin-memhardstr-col8:8080
+    - chargerId: Berlin_Memhardstr_col9
+      url: http://berlin-memhardstr-col9:8080
+    - chargerId: Berlin_Memhardstr_col10
+      url: http://berlin-memhardstr-col10:8080
+    - chargerId: Berlin_Memhardstr_col11
+      url: http://berlin-memhardstr-col11:8080
+    - chargerId: Berlin_Memhardstr_col12
+      url: http://berlin-memhardstr-col12:8080
+    - chargerId: Berlin_Memhardstr_col13
+      url: http://berlin-memhardstr-col13:8080
+    - chargerId: Berlin_Memhardstr_col14
+      url: http://berlin-memhardstr-col14:8080
+    - chargerId: Berlin_Memhardstr_col15
+      url: http://berlin-memhardstr-col15:8080
+    - chargerId: Berlin_Memhardstr_col16
+      url: http://berlin-memhardstr-col16:8080
+    - chargerId: Berlin_Memhardstr_col17
+      url: http://berlin-memhardstr-col17:8080
+    - chargerId: Berlin_Memhardstr_col18
+      url: http://berlin-memhardstr-col18:8080
+    - chargerId: Berlin_Memhardstr_col19
+      url: http://berlin-memhardstr-col19:8080
+    - chargerId: Berlin_Memhardstr_col20
+      url: http://berlin-memhardstr-col20:8080
+    - chargerId: Berlin_Memhardstr_col21
+      url: http://berlin-memhardstr-col21:8080
+    - chargerId: Berlin_Memhardstr_col22
+      url: http://berlin-memhardstr-col22:8080
+    - chargerId: Berlin_Memhardstr_col23
+      url: http://berlin-memhardstr-col23:8080
+    - chargerId: Berlin_Memhardstr_col24
+      url: http://berlin-memhardstr-col24:8080
+    - chargerId: Berlin_Memhardstr_col25
+      url: http://berlin-memhardstr-col25:8080
+    - chargerId: Berlin_Memhardstr_col26
+      url: http://berlin-memhardstr-col26:8080
+    - chargerId: Berlin_Memhardstr_col27
+      url: http://berlin-memhardstr-col27:8080
+    - chargerId: Berlin_Memhardstr_col28
+      url: http://berlin-memhardstr-col28:8080
+    - chargerId: Berlin_Memhardstr_col29
+      url: http://berlin-memhardstr-col29:8080
+    - chargerId: Berlin_Memhardstr_col30
+      url: http://berlin-memhardstr-col30:8080
+    - chargerId: Berlin_Memhardstr_col31
+      url: http://berlin-memhardstr-col31:8080
+    - chargerId: Berlin_Memhardstr_col32
+      url: http://berlin-memhardstr-col32:8080
+    - chargerId: Berlin_Memhardstr_col33
+      url: http://berlin-memhardstr-col33:8080
+    - chargerId: Berlin_Memhardstr_col34
+      url: http://berlin-memhardstr-col34:8080
+    - chargerId: Berlin_Memhardstr_col35
+      url: http://berlin-memhardstr-col35:8080

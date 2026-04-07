@@ -1,0 +1,40 @@
+init:
+  instances:
+    - chargerId: Berlin_Friedhof_col1
+      url: http://berlin-friedhof-col1:8080
+    - chargerId: Berlin_Friedhof_col2
+      url: http://berlin-friedhof-col2:8080
+    - chargerId: Berlin_Friedhof_col3
+      url: http://berlin-friedhof-col3:8080
+    - chargerId: Berlin_Friedhof_col4
+      url: http://berlin-friedhof-col4:8080
+    - chargerId: Berlin_Friedhof_col5
+      url: http://berlin-friedhof-col5:8080
+    - chargerId: Berlin_Friedhof_col6
+      url: http://berlin-friedhof-col6:8080
+    - chargerId: Berlin_Friedhof_col7
+      url: http://berlin-friedhof-col7:8080
+    - chargerId: Berlin_Friedhof_col8
+      url: http://berlin-friedhof-col8:8080
+    - chargerId: Berlin_Friedhof_col9
+      url: http://berlin-friedhof-col9:8080
+    - chargerId: Berlin_Friedhof_col10
+      url: http://berlin-friedhof-col10:8080
+    - chargerId: Berlin_Friedhof_col11
+      url: http://berlin-friedhof-col11:8080
+    - chargerId: Berlin_Friedhof_col12
+      url: http://berlin-friedhof-col12:8080
+    - chargerId: Berlin_Friedhof_col13
+      url: http://berlin-friedhof-col13:8080
+    - chargerId: Berlin_Friedhof_col14
+      url: http://berlin-friedhof-col14:8080
+    - chargerId: Berlin_Friedhof_col15
+      url: http://berlin-friedhof-col15:8080
+    - chargerId: Berlin_Friedhof_col16
+      url: http://berlin-friedhof-col16:8080
+    - chargerId: Berlin_Friedhof_col17
+      url: http://berlin-friedhof-col17:8080
+    - chargerId: Berlin_Friedhof_col18
+      url: http://berlin-friedhof-col18:8080
+    - chargerId: Berlin_Friedhof_col19
+      url: http://berlin-friedhof-col19:8080

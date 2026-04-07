@@ -1,6 +1,0 @@
-init:
-  instances:
-    - chargerId: hub_central_station_col1
-      url: http://central-station-col1:8080
-    - chargerId: hub_central_station_col2
-      url: http://central-station-col2:8080

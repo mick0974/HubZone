@@ -1,0 +1,30 @@
+init:
+  instances:
+    - chargerId: Berlin_Rehberge_col1
+      url: http://berlin-rehberge-col1:8080
+    - chargerId: Berlin_Rehberge_col2
+      url: http://berlin-rehberge-col2:8080
+    - chargerId: Berlin_Rehberge_col3
+      url: http://berlin-rehberge-col3:8080
+    - chargerId: Berlin_Rehberge_col4
+      url: http://berlin-rehberge-col4:8080
+    - chargerId: Berlin_Rehberge_col5
+      url: http://berlin-rehberge-col5:8080
+    - chargerId: Berlin_Rehberge_col6
+      url: http://berlin-rehberge-col6:8080
+    - chargerId: Berlin_Rehberge_col7
+      url: http://berlin-rehberge-col7:8080
+    - chargerId: Berlin_Rehberge_col8
+      url: http://berlin-rehberge-col8:8080
+    - chargerId: Berlin_Rehberge_col9
+      url: http://berlin-rehberge-col9:8080
+    - chargerId: Berlin_Rehberge_col10
+      url: http://berlin-rehberge-col10:8080
+    - chargerId: Berlin_Rehberge_col11
+      url: http://berlin-rehberge-col11:8080
+    - chargerId: Berlin_Rehberge_col12
+      url: http://berlin-rehberge-col12:8080
+    - chargerId: Berlin_Rehberge_col13
+      url: http://berlin-rehberge-col13:8080
+    - chargerId: Berlin_Rehberge_col14
+      url: http://berlin-rehberge-col14:8080

@@ -1,0 +1,76 @@
+init:
+  instances:
+    - chargerId: Berlin_Wolff_Park_col1
+      url: http://berlin-wolff-park-col1:8080
+    - chargerId: Berlin_Wolff_Park_col2
+      url: http://berlin-wolff-park-col2:8080
+    - chargerId: Berlin_Wolff_Park_col3
+      url: http://berlin-wolff-park-col3:8080
+    - chargerId: Berlin_Wolff_Park_col4
+      url: http://berlin-wolff-park-col4:8080
+    - chargerId: Berlin_Wolff_Park_col5
+      url: http://berlin-wolff-park-col5:8080
+    - chargerId: Berlin_Wolff_Park_col6
+      url: http://berlin-wolff-park-col6:8080
+    - chargerId: Berlin_Wolff_Park_col7
+      url: http://berlin-wolff-park-col7:8080
+    - chargerId: Berlin_Wolff_Park_col8
+      url: http://berlin-wolff-park-col8:8080
+    - chargerId: Berlin_Wolff_Park_col9
+      url: http://berlin-wolff-park-col9:8080
+    - chargerId: Berlin_Wolff_Park_col10
+      url: http://berlin-wolff-park-col10:8080
+    - chargerId: Berlin_Wolff_Park_col11
+      url: http://berlin-wolff-park-col11:8080
+    - chargerId: Berlin_Wolff_Park_col12
+      url: http://berlin-wolff-park-col12:8080
+    - chargerId: Berlin_Wolff_Park_col13
+      url: http://berlin-wolff-park-col13:8080
+    - chargerId: Berlin_Wolff_Park_col14
+      url: http://berlin-wolff-park-col14:8080
+    - chargerId: Berlin_Wolff_Park_col15
+      url: http://berlin-wolff-park-col15:8080
+    - chargerId: Berlin_Wolff_Park_col16
+      url: http://berlin-wolff-park-col16:8080
+    - chargerId: Berlin_Wolff_Park_col17
+      url: http://berlin-wolff-park-col17:8080
+    - chargerId: Berlin_Wolff_Park_col18
+      url: http://berlin-wolff-park-col18:8080
+    - chargerId: Berlin_Wolff_Park_col19
+      url: http://berlin-wolff-park-col19:8080
+    - chargerId: Berlin_Wolff_Park_col20
+      url: http://berlin-wolff-park-col20:8080
+    - chargerId: Berlin_Wolff_Park_col21
+      url: http://berlin-wolff-park-col21:8080
+    - chargerId: Berlin_Wolff_Park_col22
+      url: http://berlin-wolff-park-col22:8080
+    - chargerId: Berlin_Wolff_Park_col23
+      url: http://berlin-wolff-park-col23:8080
+    - chargerId: Berlin_Wolff_Park_col24
+      url: http://berlin-wolff-park-col24:8080
+    - chargerId: Berlin_Wolff_Park_col25
+      url: http://berlin-wolff-park-col25:8080
+    - chargerId: Berlin_Wolff_Park_col26
+      url: http://berlin-wolff-park-col26:8080
+    - chargerId: Berlin_Wolff_Park_col27
+      url: http://berlin-wolff-park-col27:8080
+    - chargerId: Berlin_Wolff_Park_col28
+      url: http://berlin-wolff-park-col28:8080
+    - chargerId: Berlin_Wolff_Park_col29
+      url: http://berlin-wolff-park-col29:8080
+    - chargerId: Berlin_Wolff_Park_col30
+      url: http://berlin-wolff-park-col30:8080
+    - chargerId: Berlin_Wolff_Park_col31
+      url: http://berlin-wolff-park-col31:8080
+    - chargerId: Berlin_Wolff_Park_col32
+      url: http://berlin-wolff-park-col32:8080
+    - chargerId: Berlin_Wolff_Park_col33
+      url: http://berlin-wolff-park-col33:8080
+    - chargerId: Berlin_Wolff_Park_col34
+      url: http://berlin-wolff-park-col34:8080
+    - chargerId: Berlin_Wolff_Park_col35
+      url: http://berlin-wolff-park-col35:8080
+    - chargerId: Berlin_Wolff_Park_col36
+      url: http://berlin-wolff-park-col36:8080
+    - chargerId: Berlin_Wolff_Park_col37
+      url: http://berlin-wolff-park-col37:8080

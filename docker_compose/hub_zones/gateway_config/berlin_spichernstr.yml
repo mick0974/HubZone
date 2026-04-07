@@ -1,0 +1,28 @@
+init:
+  instances:
+    - chargerId: Berlin_Spichernstr_col1
+      url: http://berlin-spichernstr-col1:8080
+    - chargerId: Berlin_Spichernstr_col2
+      url: http://berlin-spichernstr-col2:8080
+    - chargerId: Berlin_Spichernstr_col3
+      url: http://berlin-spichernstr-col3:8080
+    - chargerId: Berlin_Spichernstr_col4
+      url: http://berlin-spichernstr-col4:8080
+    - chargerId: Berlin_Spichernstr_col5
+      url: http://berlin-spichernstr-col5:8080
+    - chargerId: Berlin_Spichernstr_col6
+      url: http://berlin-spichernstr-col6:8080
+    - chargerId: Berlin_Spichernstr_col7
+      url: http://berlin-spichernstr-col7:8080
+    - chargerId: Berlin_Spichernstr_col8
+      url: http://berlin-spichernstr-col8:8080
+    - chargerId: Berlin_Spichernstr_col9
+      url: http://berlin-spichernstr-col9:8080
+    - chargerId: Berlin_Spichernstr_col10
+      url: http://berlin-spichernstr-col10:8080
+    - chargerId: Berlin_Spichernstr_col11
+      url: http://berlin-spichernstr-col11:8080
+    - chargerId: Berlin_Spichernstr_col12
+      url: http://berlin-spichernstr-col12:8080
+    - chargerId: Berlin_Spichernstr_col13
+      url: http://berlin-spichernstr-col13:8080
